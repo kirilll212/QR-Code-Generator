@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR-Code</title>
+</head>
+<body>
+    <div style="display: flex; justify-content: center; flex-direction: column; width: 50%;">
+        <img src="" alt="">
+        <input type="text">
+        <button id="generate">Generate</button>
+        <button id="download">Download</button>
+    </div>
+    <script>
+        const input = document.querySelector("input");
+        const qrImage = document.querySelector("img");
+        const generateBtn = document.querySelector("#generate");
+        const downloadBtn = document.querySelector("#download");
+
+        generateBtn.addEventListener("click", () => {
+            const qrCode = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${input.value}`;
+            qrImage.src = qrCode;
+        });
+
+        downloadBtn.addEventListener("click", async () => {
+            const response = await fetch(qrImage.src);
+            const blob = await response.blob();
+            const downloadLink = document.createElement("a");
+            downloadLink.href = URL.createObjectURL(blob);
+            downloadLink.download = "qrcode.jpg";
+            downloadLink.click();
+        });
+        </script>
+</body>
+</html>
